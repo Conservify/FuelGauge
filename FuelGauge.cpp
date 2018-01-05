@@ -1,8 +1,8 @@
 #include <Wire.h>
+
 #include "FuelGauge.h"
 
-FuelGauge::FuelGauge() :
-    address(0x36) {
+FuelGauge::FuelGauge() : address(0x36) {
 }
 
 void FuelGauge::powerOn() {
@@ -13,30 +13,17 @@ void FuelGauge::powerOn() {
     Wire.endTransmission();
 }
 
-void FuelGauge::version() {
+uint32_t FuelGauge::version() {
     Wire.beginTransmission(address);
     Wire.write((byte)0x08);
     Wire.endTransmission();
 
     Wire.requestFrom(address, (byte)2);
+
     uint8_t high = Wire.read();
     uint8_t low = Wire.read();
 
-    Serial.println(high);
-    Serial.println(low);
-}
-
-void FuelGauge::config() {
-    Wire.beginTransmission(address);
-    Wire.write((byte)0x0C);
-    Wire.endTransmission();
-
-    Wire.requestFrom(address, (byte)2);
-    uint8_t high = Wire.read();
-    uint8_t low = Wire.read();
-
-    Serial.println(high);
-    Serial.println(low);
+    return (low | (high << 8));
 }
 
 float FuelGauge::cellVoltage() {

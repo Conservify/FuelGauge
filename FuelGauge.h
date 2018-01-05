@@ -1,8 +1,8 @@
 #ifndef FUEL_GAUGE_H_INCLUDED
 #define FUEL_GAUGE_H_INCLUDED
 
-#include <Arduino.h>
 #include <Wire.h>
+#include <Arduino.h>
 
 class FuelGauge {
 private:
@@ -13,8 +13,7 @@ public:
 
 public:
     void powerOn();
-    void version();
-    void config();
+    uint32_t version();
     float stateOfCharge();
     float cellVoltage();
 
